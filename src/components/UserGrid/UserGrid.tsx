@@ -9,7 +9,7 @@ interface UserGridProps {
 }
 
 export const UserGrid = ({ users, onToggleFavorite, isFavorite }: UserGridProps) => {
-  if (users.length === 0) {
+  if (users.length === 0 || !users) {
     return (
       <div className={styles.emptyState}>
         No se encontraron usuarios
@@ -24,7 +24,7 @@ export const UserGrid = ({ users, onToggleFavorite, isFavorite }: UserGridProps)
           key={user.id}
           user={user}
           onToggleFavorite={onToggleFavorite}
-          isFavorite={isFavorite(user.id)}
+          isFavorite={isFavorite}
         />
       ))}
     </div>

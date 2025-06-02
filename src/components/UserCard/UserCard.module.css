@@ -4,6 +4,9 @@
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card:hover {
@@ -15,6 +18,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex: 1;
 }
 
 .avatar {
@@ -61,6 +65,7 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 1.25rem;
   transform-origin: center;
+  margin-left: 1rem;
 }
 
 .favoriteButton:hover {
@@ -70,6 +75,9 @@
 
 .favoriteButton.active {
   color: #f59e0b;
+}
+
+.favoriteButton.active:active {
   animation: starPop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

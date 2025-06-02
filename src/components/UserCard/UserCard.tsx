@@ -7,7 +7,7 @@ import styles from './UserCard.module.css';
 interface UserCardProps {
   user: User;
   onToggleFavorite: (user: User) => void;
-  isFavorite: boolean;
+  isFavorite: (userId: number) => boolean;
 }
 
 export const UserCard = ({ user, onToggleFavorite, isFavorite }: UserCardProps) => {
@@ -36,14 +36,14 @@ export const UserCard = ({ user, onToggleFavorite, isFavorite }: UserCardProps) 
           </h2>
           <p className={styles.username}>@{user.login}</p>
         </div>
-        <button
-          className={`${styles.favoriteButton} ${isFavorite ? styles.active : ''}`}
-          onClick={() => onToggleFavorite(user)}
-          aria-label={isFavorite ? 'Eliminar de favoritos' : 'Agregar a favoritos'}
-        >
-          {isFavorite ? '⭐' : '☆'}
-        </button>
       </div>
+      <button
+        onClick={() => onToggleFavorite(user)}
+        className={`${styles.favoriteButton} ${isFavorite(user.id) ? styles.active : ''}`}
+        aria-label={isFavorite(user.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+      >
+        {isFavorite(user.id) ? '⭐' : '☆'}
+      </button>
     </div>
   );
 }; 

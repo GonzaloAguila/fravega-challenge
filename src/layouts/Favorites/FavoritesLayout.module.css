@@ -10,22 +10,38 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  position: relative;
 }
 
 .title {
-  font-size: 1.875rem;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  flex: 1;
 }
 
 .link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+  position: absolute;
+  left: 0;
 }
 
 .link:hover {
-  text-decoration: underline;
+  color: #1d4ed8;
+}
+
+.link::before {
+  content: '←';
+  font-size: 1.25rem;
 }
 
 .emptyState {

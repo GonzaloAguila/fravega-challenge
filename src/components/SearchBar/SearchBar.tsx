@@ -2,7 +2,11 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import styles from './SearchBar.module.css';
 
-export const SearchBar = () => {
+interface SearchBarProps {
+  onLoadingChange?: (isLoading: boolean) => void;
+}
+
+export const SearchBar = ({ onLoadingChange }: SearchBarProps) => {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +18,11 @@ export const SearchBar = () => {
       setQuery(searchQuery);
     }
   }, [router.query.q]);
+
+  // Notificar cambios en el estado de carga
+  useEffect(() => {
+    onLoadingChange?.(isLoading);
+  }, [isLoading, onLoadingChange]);
 
   // Función para manejar la búsqueda
   const handleSearch = useCallback(
