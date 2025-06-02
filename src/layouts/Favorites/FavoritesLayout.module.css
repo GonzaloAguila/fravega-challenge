@@ -1,0 +1,34 @@
+.main {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: bold;
+}
+
+.link {
+  color: #2563eb;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.emptyState {
+  text-align: center;
+  color: #6b7280;
+} 
