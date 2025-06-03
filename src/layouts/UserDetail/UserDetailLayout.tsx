@@ -1,5 +1,6 @@
 import { UserDetail, Repository } from '@/types';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './UserDetailLayout.module.css';
 
 interface UserDetailLayoutProps {
@@ -17,10 +18,13 @@ export const UserDetailLayout = ({ user, repos }: UserDetailLayoutProps) => {
 
         <div className={styles.profileCard}>
           <div className={styles.profileContent}>
-            <img
+            <Image
               src={user.avatar_url}
               alt={user.login}
               className={styles.avatar}
+              width={128}
+              height={128}
+              priority
             />
             <div className={styles.profileInfo}>
               <div className={styles.nameContainer}>
@@ -46,7 +50,7 @@ export const UserDetailLayout = ({ user, repos }: UserDetailLayoutProps) => {
 
         <h2 className={styles.sectionTitle}>Repositorios</h2>
         <div className={styles.repoGrid}>
-          {repos.map((repo) => (
+          {repos?.map((repo) => (
             <div key={repo.id} className={styles.repoCard}>
               <h3 className={styles.repoName}>
                 <a
@@ -62,7 +66,7 @@ export const UserDetailLayout = ({ user, repos }: UserDetailLayoutProps) => {
               )}
               <div className={styles.repoStats}>
                 <span>⭐ {repo.stargazers_count}</span>
-                {repo.language && <span>🔤 {repo.language}</span>}
+                {repo?.language && <span>🔤 {repo.language}</span>}
               </div>
             </div>
           ))}

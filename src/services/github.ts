@@ -1,4 +1,4 @@
-import { User, UserDetail } from '@/types';
+import { User, UserDetail, Repository } from '@/types';
 
 const BASE_URL = 'https://api.github.com';
 
@@ -25,7 +25,7 @@ export const getUserDetails = async (username: string): Promise<UserDetail> => {
   return response.json();
 };
 
-export const getUserRepos = async (username: string): Promise<any[]> => {
+export const getUserRepos = async (username: string): Promise<Repository[]> => {
   const response = await fetch(`${BASE_URL}/users/${username}/repos`);
 
   if (!response.ok) {
