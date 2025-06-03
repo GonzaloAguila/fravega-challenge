@@ -47,7 +47,17 @@ export const HomeLayout = ({ users, searchQuery = '' }: HomeLayoutProps) => {
     <main className={styles.main}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h1 className={styles.title}>GitHub Users</h1>
+          <h1 className={styles.title}>
+            GitHub Users
+            <a 
+              href="https://www.linkedin.com/in/gonzaloaguila/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={styles.subtitle}
+            >
+              by Gonzalo Aguila
+            </a>
+          </h1>
           <Link href="/favorites" className={styles.link}>
             Ver Favoritos
           </Link>

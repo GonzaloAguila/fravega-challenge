@@ -54,4 +54,22 @@
 .limitButton.active:hover, .sortButton.active:hover {
   background-color: #1d4ed8;
   border-color: #1d4ed8;
+}
+
+@media (max-width: 768px) {
+  .filterPanel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .sortGroup, .limitGroup {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .limitButton, .sortButton {
+    width: 100%;
+  }
 } 

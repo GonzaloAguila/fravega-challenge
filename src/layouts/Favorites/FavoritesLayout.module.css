@@ -48,4 +48,25 @@
   text-align: center;
   color: #6b7280;
   margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .link {
+    position: static;
+    justify-content: center;
+  }
 } 

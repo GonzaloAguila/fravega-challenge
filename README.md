@@ -5,12 +5,12 @@ Aplicación web para buscar usuarios de GitHub y ver sus detalles.
 
 ## Características
 
-- 🔍 Búsqueda de usuarios de GitHub en tiempo real
-- ⭐ Gestión de favoritos persistente en localStorage
-- 📊 Visualización de detalles de usuario y sus repositorios
-- 📑 Panel de filtros: ordena y limita la cantidad de resultados
-- 📱 Diseño responsive y accesible
-- ⚡ Notificaciones de error y éxito con toasts
+- Búsqueda de usuarios de GitHub en tiempo real
+- Gestión de favoritos persistente en localStorage
+- Visualización de detalles de usuario y sus repositorios
+- Panel de filtros: ordena y limita la cantidad de resultados
+- Diseño responsive y accesible
+- Notificaciones de error y éxito con toasts
 
 ## Tecnologías
 

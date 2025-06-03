@@ -4,38 +4,42 @@
 }
 
 .container {
-  max-width: 64rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
   margin-bottom: 2rem;
-  display: inline-block;
+  transition: color 0.2s;
 }
 
 .backLink:hover {
-  text-decoration: underline;
+  color: #1d4ed8;
 }
 
 .profileCard {
-  background-color: white;
+  background: white;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   padding: 2rem;
   margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .profileContent {
   display: flex;
-  align-items: flex-start;
   gap: 2rem;
+  align-items: flex-start;
 }
 
 .avatar {
-  width: 8rem;
-  height: 8rem;
   border-radius: 50%;
+  border: 4px solid #f3f4f6;
 }
 
 .profileInfo {
@@ -46,83 +50,113 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .name {
-  font-size: 1.875rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.githubLink {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.githubLink:hover {
+  color: #1d4ed8;
 }
 
 .bio {
   color: #4b5563;
   margin-bottom: 1rem;
+  line-height: 1.5;
 }
 
 .stats {
   display: flex;
-  gap: 1rem;
-  font-size: 0.875rem;
+  gap: 1.5rem;
   color: #6b7280;
 }
 
 .sectionTitle {
   font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
 }
 
 .repoGrid {
   display: grid;
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .repoCard {
-  background-color: white;
+  background: white;
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  padding: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .repoName {
+  margin: 0 0 0.5rem 0;
   font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
 }
 
 .repoName a {
   color: #2563eb;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
 .repoName a:hover {
-  text-decoration: underline;
+  color: #1d4ed8;
 }
 
 .repoDescription {
   color: #4b5563;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
 }
 
 .repoStats {
   display: flex;
   gap: 1rem;
-  font-size: 0.875rem;
   color: #6b7280;
+  font-size: 0.875rem;
 }
 
-.githubLink {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  background-color: #24292e;
-  color: white;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
+@media (max-width: 768px) {
+  .main {
+    padding: 1rem;
+  }
 
-.githubLink:hover {
-  background-color: #2f363d;
-  transform: translateY(-1px);
+  .profileContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .nameContainer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .name {
+    font-size: 1.5rem;
+  }
+
+  .stats {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .repoGrid {
+    grid-template-columns: 1fr;
+  }
 } 
