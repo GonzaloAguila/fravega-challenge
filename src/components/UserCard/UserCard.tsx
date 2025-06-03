@@ -12,10 +12,17 @@ interface UserCardProps {
 
 export const UserCard = ({ user, onToggleFavorite, isFavorite }: UserCardProps) => {
   const [imageError, setImageError] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleToggleFavorite = () => {
+    setIsAnimating(true);
+    onToggleFavorite(user);
+    setTimeout(() => setIsAnimating(false), 300);
+  };
 
   return (
     <div className={styles.card}>
-      <div className={styles.content}>
+      <div className={styles.avatarContainer}>
         {imageError ? (
           <div className={styles.avatarPlaceholder}>
             {user.login.charAt(0).toUpperCase()}
@@ -24,26 +31,25 @@ export const UserCard = ({ user, onToggleFavorite, isFavorite }: UserCardProps) 
           <Image
             src={user.avatar_url}
             alt={`${user.login}'s avatar`}
-            width={64}
-            height={64}
+            width={100}
+            height={100}
             className={styles.avatar}
             onError={() => setImageError(true)}
           />
         )}
-        <div className={styles.info}>
-          <h2 className={styles.name}>
-            <Link href={`/users/${user.login}`}>{user.login}</Link>
-          </h2>
-          <p className={styles.username}>@{user.login}</p>
-        </div>
       </div>
-      <button
-        onClick={() => onToggleFavorite(user)}
-        className={`${styles.favoriteButton} ${isFavorite(user.id) ? styles.active : ''}`}
-        aria-label={isFavorite(user.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-      >
-        {isFavorite(user.id) ? '⭐' : '☆'}
-      </button>
+      <div className={styles.content}>
+        <Link href={`/users/${user.login}`} className={styles.username}>
+          {user.login}
+        </Link>
+        <button
+          onClick={handleToggleFavorite}
+          className={`${styles.favoriteButton} ${isFavorite(user.id) ? styles.favorited : ''} ${isAnimating ? styles.animate : ''}`}
+          aria-label={isFavorite(user.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+        >
+          ★
+        </button>
+      </div>
     </div>
   );
 }; 

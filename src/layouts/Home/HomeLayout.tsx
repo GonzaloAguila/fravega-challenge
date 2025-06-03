@@ -9,7 +9,7 @@ import { Loader } from '@/components/Loader/Loader';
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { useLoading } from '@/hooks/useLoading';
-import { useSort } from '@/hooks/useSort';
+import { useSort, SortField, SortOrder } from '@/hooks/useSort';
 
 interface HomeLayoutProps {
   initialUsers: User[];
@@ -56,10 +56,8 @@ export const HomeLayout = ({ initialUsers, searchQuery = '' }: HomeLayoutProps) 
   const handleToggleFavorite = useCallback(
     (user: User) => {
       setIsLoading(true);
-      setTimeout(() => {
-        toggleFavorite(user);
-        setIsLoading(false);
-      }, 500);
+      toggleFavorite(user);
+      setIsLoading(false);
     },
     [toggleFavorite]
   );
@@ -74,7 +72,7 @@ export const HomeLayout = ({ initialUsers, searchQuery = '' }: HomeLayoutProps) 
           </Link>
         </div>
         
-        <SearchBar onLoadingChange={handleSearchLoading} initialQuery={searchQuery} />
+        <SearchBar onLoadingChange={handleSearchLoading} />
         {searchQuery && (
           <div className={styles.searchResults}>
             Resultados para: {searchQuery}
@@ -82,21 +80,21 @@ export const HomeLayout = ({ initialUsers, searchQuery = '' }: HomeLayoutProps) 
         )}
         <div className={styles.sortControls}>
           <button
-            onClick={() => toggleSort('login')}
-            className={`${styles.sortButton} ${sortField === 'login' ? styles.active : ''}`}
+            onClick={() => toggleSort(SortField.LOGIN)}
+            className={`${styles.sortButton} ${sortField === SortField.LOGIN ? styles.active : ''}`}
           >
             Nombre
-            {sortField === 'login' && (
-              <span>{sortOrder === 'asc' ? '↑' : '↓'}</span>
+            {sortField === SortField.LOGIN && (
+              <span>{sortOrder === SortOrder.ASC ? '↑' : '↓'}</span>
             )}
           </button>
           <button
-            onClick={() => toggleSort('id')}
-            className={`${styles.sortButton} ${sortField === 'id' ? styles.active : ''}`}
+            onClick={() => toggleSort(SortField.ID)}
+            className={`${styles.sortButton} ${sortField === SortField.ID ? styles.active : ''}`}
           >
             ID
-            {sortField === 'id' && (
-              <span>{sortOrder === 'asc' ? '↑' : '↓'}</span>
+            {sortField === SortField.ID && (
+              <span>{sortOrder === SortOrder.ASC ? '↑' : '↓'}</span>
             )}
           </button>
         </div>
