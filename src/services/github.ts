@@ -36,7 +36,7 @@ export const getUserRepos = async (username: string): Promise<Repository[]> => {
 };
 
 export const getInitialUsers = async (): Promise<User[]> => {
-  const response = await fetch(`${BASE_URL}/users?since=0&per_page=10`);
+  const response = await fetch(`${BASE_URL}/users?since=0&per_page=40`);
 
   if (!response.ok) {
     throw new Error('Error al obtener usuarios iniciales');
