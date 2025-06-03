@@ -9,9 +9,10 @@ export interface FilterPanelProps {
   onSort: (field: SortField) => void;
   limit: number;
   onLimitChange: (limit: number) => void;
+  showLimit?: boolean;
 }
 
-export const FilterPanel = ({ sortField, sortOrder, onSort, limit, onLimitChange }: FilterPanelProps) => (
+export const FilterPanel = ({ sortField, sortOrder, onSort, limit, onLimitChange, showLimit = true }: FilterPanelProps) => (
   <div className={styles.filterPanel}>
     <div className={styles.sortGroup}>
       <span>Ordenar por:</span>
@@ -32,20 +33,22 @@ export const FilterPanel = ({ sortField, sortOrder, onSort, limit, onLimitChange
         ID {sortField === SortField.ID && (sortOrder === SortOrder.ASC ? '↑' : '↓')}
       </button>
     </div>
-    <div className={styles.limitGroup}>
-      <span>Límite:</span>
-      {LIMIT_OPTIONS.map((opt) => (
-        <button
-          key={opt}
-          type="button"
-          className={`${styles.limitButton} ${limit === opt ? styles.active : ''}`}
-          onClick={() => onLimitChange(opt)}
-          aria-label={`Limitar a ${opt}`}
-          tabIndex={0}
-        >
-          {opt}
-        </button>
-      ))}
-    </div>
+    {showLimit && (
+      <div className={styles.limitGroup}>
+        <span>Límite:</span>
+        {LIMIT_OPTIONS.map((opt) => (
+          <button
+            key={opt}
+            type="button"
+            className={`${styles.limitButton} ${limit === opt ? styles.active : ''}`}
+            onClick={() => onLimitChange(opt)}
+            aria-label={`Limitar a ${opt}`}
+            tabIndex={0}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    )}
   </div>
 ); 

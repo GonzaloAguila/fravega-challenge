@@ -5,10 +5,13 @@ import { useState } from 'react';
 import styles from './FavoritesLayout.module.css';
 import { useFavorites } from '@/hooks/useFavorites';
 import { User } from '@/types';
+import { useSort } from '@/hooks/useSort';
+import { FilterPanel } from '@/components/FilterPanel/FilterPanel';
 
 export const FavoritesLayout = () => {
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { sortedItems, sortField, sortOrder, toggleSort } = useSort(favorites);
 
   const handleToggleFavorite = (user: User) => {
     setIsLoading(true);
@@ -28,13 +31,22 @@ export const FavoritesLayout = () => {
           <h1 className={styles.title}>Usuarios Favoritos</h1>
         </div>
 
-        {favorites.length === 0 ? (
+        <FilterPanel
+          sortField={sortField}
+          sortOrder={sortOrder}
+          onSort={toggleSort}
+          limit={0}
+          onLimitChange={() => {}}
+          showLimit={false}
+        />
+
+        {sortedItems.length === 0 ? (
           <div className={styles.emptyState}>
             No tienes usuarios favoritos aún
           </div>
         ) : (
           <UserGrid 
-            users={favorites} 
+            users={sortedItems} 
             onToggleFavorite={handleToggleFavorite}
             isFavorite={isFavorite}
           />

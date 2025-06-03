@@ -17,8 +17,7 @@ Aplicación web para buscar usuarios de GitHub y ver sus detalles.
 - Next.js
 - TypeScript
 - React Query
-- Zustand (para global state)
-- React Hot Toast
+- React Hot Toast (única librería externa que use para mostrar mas prolijamente los favoritos)
 - CSS Modules
 - GitHub API
 - Jest + Testing Library
@@ -49,11 +48,11 @@ yarn dev
 
 ## Uso
 
-- Ingresa el nombre de usuario en la barra de búsqueda.
-- Usa el panel de filtros para ordenar y limitar los resultados.
-- Haz clic en un usuario para ver sus detalles y repositorios.
-- Usa el botón de estrella para agregar/quitar de favoritos.
-- Accede a la sección de favoritos desde el header.
+- Ingresar el nombre de usuario en la barra de búsqueda.
+- Usar el panel de filtros para ordenar y limitar los resultados.
+- Hacer clic en un usuario para ver sus detalles y repositorios.
+- Usar el botón de estrella para agregar/quitar de favoritos.
+- Acceder a la sección de favoritos desde el header.
 
 ## Testing
 
@@ -79,4 +78,4 @@ yarn test:coverage
 ## Notas
 
 - La API de GitHub tiene un límite de peticiones por hora para usuarios no autenticados. Si lo superas, verás un mensaje de error.
-- El código está tipado completamente con TypeScript y sigue una estructura modular y reutilizable.
+- El código está tipado completamente con TypeScript.
