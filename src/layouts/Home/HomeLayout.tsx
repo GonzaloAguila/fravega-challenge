@@ -37,7 +37,6 @@ export const HomeLayout = ({ users, searchQuery = '' }: HomeLayoutProps) => {
     [toggleFavorite]
   );
 
-  // Loader global si cualquier loading está activo
   const showLoader = isRouteLoading || isSearchLoading || isUsersLoading || isFavoriteLoading;
 
   return (
