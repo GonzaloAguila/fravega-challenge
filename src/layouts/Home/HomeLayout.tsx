@@ -1,24 +1,28 @@
 import { SearchBar } from '@/components/SearchBar/SearchBar';
 import { UserGrid } from '@/components/UserGrid/UserGrid';
 import { useFavorites } from '@/hooks/useFavorites';
+import { useUsers } from '@/hooks/useUsers';
 import { User } from '@/types';
 import Link from 'next/link';
 import styles from './HomeLayout.module.css';
 import { Loader } from '@/components/Loader/Loader';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { useLoading } from '@/hooks/useLoading';
+import { useSort } from '@/hooks/useSort';
 
 interface HomeLayoutProps {
-  users: User[];
+  initialUsers: User[];
   searchQuery?: string;
 }
 
-export const HomeLayout = ({ users, searchQuery }: HomeLayoutProps) => {
+export const HomeLayout = ({ initialUsers, searchQuery = '' }: HomeLayoutProps) => {
   const { toggleFavorite, isFavorite } = useFavorites();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { isLoading: isPageLoading } = useLoading();
+  const { data: users = initialUsers, isLoading: isUsersLoading } = useUsers(searchQuery);
+  const { sortedItems = [], sortField, sortOrder, toggleSort } = useSort(users || []);
 
   useEffect(() => {
     const handleStart = () => setIsLoading(true);
@@ -49,6 +53,17 @@ export const HomeLayout = ({ users, searchQuery }: HomeLayoutProps) => {
     setIsLoading(loading);
   };
 
+  const handleToggleFavorite = useCallback(
+    (user: User) => {
+      setIsLoading(true);
+      setTimeout(() => {
+        toggleFavorite(user);
+        setIsLoading(false);
+      }, 500);
+    },
+    [toggleFavorite]
+  );
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -59,19 +74,45 @@ export const HomeLayout = ({ users, searchQuery }: HomeLayoutProps) => {
           </Link>
         </div>
         
-        <SearchBar onLoadingChange={handleSearchLoading} />
+        <SearchBar onLoadingChange={handleSearchLoading} initialQuery={searchQuery} />
         {searchQuery && (
           <div className={styles.searchResults}>
             Resultados para: {searchQuery}
           </div>
         )}
-        <UserGrid 
-          users={users} 
-          onToggleFavorite={toggleFavorite}
-          isFavorite={isFavorite}
-        />
+        <div className={styles.sortControls}>
+          <button
+            onClick={() => toggleSort('login')}
+            className={`${styles.sortButton} ${sortField === 'login' ? styles.active : ''}`}
+          >
+            Nombre
+            {sortField === 'login' && (
+              <span>{sortOrder === 'asc' ? '↑' : '↓'}</span>
+            )}
+          </button>
+          <button
+            onClick={() => toggleSort('id')}
+            className={`${styles.sortButton} ${sortField === 'id' ? styles.active : ''}`}
+          >
+            ID
+            {sortField === 'id' && (
+              <span>{sortOrder === 'asc' ? '↑' : '↓'}</span>
+            )}
+          </button>
+        </div>
+        {sortedItems.length === 0 ? (
+          <div className={styles.emptyState}>
+            {searchQuery ? 'No se encontraron usuarios' : 'No hay usuarios para mostrar'}
+          </div>
+        ) : (
+          <UserGrid 
+            users={sortedItems} 
+            onToggleFavorite={handleToggleFavorite}
+            isFavorite={isFavorite}
+          />
+        )}
       </div>
-      {isLoading && <Loader />}
+      {(isLoading || isUsersLoading) && <Loader />}
     </main>
   );
 }; 

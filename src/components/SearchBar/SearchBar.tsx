@@ -4,14 +4,14 @@ import styles from './SearchBar.module.css';
 
 interface SearchBarProps {
   onLoadingChange?: (isLoading: boolean) => void;
+  initialQuery?: string;
 }
 
-export const SearchBar = ({ onLoadingChange }: SearchBarProps) => {
+export const SearchBar = ({ onLoadingChange, initialQuery = '' }: SearchBarProps) => {
   const router = useRouter();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(initialQuery);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Actualizar el input cuando cambia la URL
   useEffect(() => {
     const searchQuery = router.query.q as string;
     if (searchQuery) {
@@ -19,29 +19,29 @@ export const SearchBar = ({ onLoadingChange }: SearchBarProps) => {
     }
   }, [router.query.q]);
 
-  // Notificar cambios en el estado de carga
   useEffect(() => {
     onLoadingChange?.(isLoading);
   }, [isLoading, onLoadingChange]);
 
-  // Función para manejar la búsqueda
   const handleSearch = useCallback(
     (searchQuery: string) => {
       setIsLoading(true);
       setQuery(searchQuery);
 
-      // Usar un debounce para evitar demasiadas peticiones
-      const timeoutId = setTimeout(() => {
-        if (searchQuery) {
-          router.push({
-            pathname: '/',
-            query: { q: searchQuery },
-          });
-        } else {
-          router.push('/');
+      const timeoutId = setTimeout(async () => {
+        try {
+          if (searchQuery) {
+            await router.push({
+              pathname: '/',
+              query: { q: searchQuery },
+            });
+          } else {
+            await router.push('/');
+          }
+        } finally {
+          setIsLoading(false);
         }
-        setIsLoading(false);
-      }, 500); // 500ms de debounce
+      }, 300);
 
       return () => clearTimeout(timeoutId);
     },

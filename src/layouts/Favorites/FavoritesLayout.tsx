@@ -43,11 +43,10 @@ export const FavoritesLayout = ({ favorites: initialFavorites }: FavoritesLayout
     <main className={styles.main}>
       <div className={styles.container}>
         <div className={styles.header}>
-        <Link href="/" className={styles.link}>
+          <Link href="/" className={styles.link}>
             Volver
           </Link>
           <h1 className={styles.title}>Usuarios Favoritos</h1>
-         
         </div>
 
         {favorites.length === 0 ? (
@@ -62,6 +61,7 @@ export const FavoritesLayout = ({ favorites: initialFavorites }: FavoritesLayout
           />
         )}
       </div>
-      </main>
+      {isLoading && <Loader />}
+    </main>
   );
 }; 
