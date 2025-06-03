@@ -6,8 +6,7 @@ import { User } from '@/types';
 import Link from 'next/link';
 import styles from './HomeLayout.module.css';
 import { Loader } from '@/components/Loader/Loader';
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useCallback } from 'react';
 import { useLoading } from '@/hooks/useLoading';
 import { useSort, SortField, SortOrder } from '@/hooks/useSort';
 
@@ -18,49 +17,28 @@ interface HomeLayoutProps {
 
 export const HomeLayout = ({ users, searchQuery = '' }: HomeLayoutProps) => {
   const { toggleFavorite, isFavorite } = useFavorites();
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { isLoading: isPageLoading } = useLoading();
+  const { isLoading: isRouteLoading } = useLoading();
   const { data = users, isLoading: isUsersLoading } = useUsers(searchQuery);
   const { sortedItems = [], sortField, sortOrder, toggleSort } = useSort(data || []);
 
-  useEffect(() => {
-    const handleStart = () => setIsLoading(true);
-    const handleComplete = () => {
-      if (!isPageLoading) {
-        setIsLoading(false);
-      }
-    };
-
-    router.events.on('routeChangeStart', handleStart);
-    router.events.on('routeChangeComplete', handleComplete);
-    router.events.on('routeChangeError', handleComplete);
-
-    return () => {
-      router.events.off('routeChangeStart', handleStart);
-      router.events.off('routeChangeComplete', handleComplete);
-      router.events.off('routeChangeError', handleComplete);
-    };
-  }, [router, isPageLoading]);
-
-  useEffect(() => {
-    if (!isPageLoading) {
-      setIsLoading(false);
-    }
-  }, [isPageLoading]);
+  const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
+  const [isFavoriteLoading, setIsFavoriteLoading] = useState<boolean>(false);
 
   const handleSearchLoading = (loading: boolean) => {
-    setIsLoading(loading);
+    setIsSearchLoading(loading);
   };
 
   const handleToggleFavorite = useCallback(
     (user: User) => {
-      setIsLoading(true);
+      setIsFavoriteLoading(true);
       toggleFavorite(user);
-      setIsLoading(false);
+      setTimeout(() => setIsFavoriteLoading(false), 500);
     },
     [toggleFavorite]
   );
+
+  // Loader global si cualquier loading está activo
+  const showLoader = isRouteLoading || isSearchLoading || isUsersLoading || isFavoriteLoading;
 
   return (
     <main className={styles.main}>
@@ -110,7 +88,7 @@ export const HomeLayout = ({ users, searchQuery = '' }: HomeLayoutProps) => {
           />
         )}
       </div>
-      {(isLoading || isUsersLoading) && <Loader />}
+      {showLoader && <Loader />}
     </main>
   );
 }; 
