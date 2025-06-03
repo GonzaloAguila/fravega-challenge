@@ -37,8 +37,8 @@ describe('UserCard', () => {
     
     expect(screen.getByLabelText('Quitar de favoritos')).toBeInTheDocument();
     
-    const mockIsNotFavorite = (userId: number) => false;
-    rerender(<UserCard user={mockUser} isFavorite={mockIsNotFavorite} onToggleFavorite={mockOnToggleFavorite} />);
+    const mockIsNotFavorite = () => false;
+    rerender(<UserCard user={mockUser}  isFavorite={mockIsNotFavorite} onToggleFavorite={mockOnToggleFavorite} />);
     
     expect(screen.getByLabelText('Agregar a favoritos')).toBeInTheDocument();
   });
