@@ -14,14 +14,14 @@ const mockOnToggleFavorite = jest.fn();
 const mockIsFavorite = (userId: number) => userId === mockUser.id;
 
 describe('UserCard', () => {
-  it('renders user information correctly', () => {
+  it('renderiza correctamente la información del usuario', () => {
     render(<UserCard user={mockUser} isFavorite={mockIsFavorite} onToggleFavorite={mockOnToggleFavorite} />);
     
     expect(screen.getByText('testuser')).toBeInTheDocument();
-    expect(screen.getByAltText('testuser\'s avatar')).toHaveAttribute('src', 'https://example.com/avatar.jpg');
+    expect(screen.getByAltText("testuser's avatar")).toHaveAttribute('src', 'https://example.com/avatar.jpg');
   });
 
-  it('calls onToggleFavorite when favorite button is clicked', () => {
+  it('llama a onToggleFavorite cuando se hace click en el botón de favoritos', () => {
     render(<UserCard user={mockUser} isFavorite={mockIsFavorite} onToggleFavorite={mockOnToggleFavorite} />);
     
     const favoriteButton = screen.getByLabelText('Quitar de favoritos');
@@ -30,7 +30,7 @@ describe('UserCard', () => {
     expect(mockOnToggleFavorite).toHaveBeenCalledWith(mockUser);
   });
 
-  it('shows correct favorite button state', () => {
+  it('muestra el estado correcto del botón de favoritos', () => {
     const { rerender } = render(
       <UserCard user={mockUser} isFavorite={mockIsFavorite} onToggleFavorite={mockOnToggleFavorite} />
     );

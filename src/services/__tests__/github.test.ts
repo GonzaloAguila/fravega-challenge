@@ -3,18 +3,18 @@ import { searchUsers, getUserDetails, getUserRepos, getInitialUsers } from '../g
 // Mock fetch
 global.fetch = jest.fn();
 
-describe('GitHub Service', () => {
+describe('Servicio de GitHub', () => {
   beforeEach(() => {
     (global.fetch as jest.Mock).mockClear();
   });
 
   describe('searchUsers', () => {
-    it('returns empty array when query is empty', async () => {
+    it('devuelve un array vacío cuando la búsqueda está vacía', async () => {
       const result = await searchUsers('');
       expect(result).toEqual([]);
     });
 
-    it('returns users when search is successful', async () => {
+    it('devuelve usuarios cuando la búsqueda es exitosa', async () => {
       const mockUsers = [
         { id: 1, login: 'user1', avatar_url: 'url1', html_url: 'html1' },
         { id: 2, login: 'user2', avatar_url: 'url2', html_url: 'html2' },
@@ -29,17 +29,19 @@ describe('GitHub Service', () => {
       expect(result).toEqual(mockUsers);
     });
 
-    it('throws error when search fails', async () => {
+    it('da un error cuando la búsqueda falla', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
+        status: 403,
+        statusText: 'rate limit exceeded',
       });
 
-      await expect(searchUsers('test')).rejects.toThrow('Error al buscar usuarios');
+      await expect(searchUsers('test')).rejects.toThrow('Has superado el límite de peticiones a la API de GitHub. Intenta más tarde.');
     });
   });
 
   describe('getUserDetails', () => {
-    it('returns user details when successful', async () => {
+    it('devuelve los detalles del usuario cuando es exitoso', async () => {
       const mockUser = {
         id: 1,
         login: 'user1',
@@ -61,17 +63,19 @@ describe('GitHub Service', () => {
       expect(result).toEqual(mockUser);
     });
 
-    it('throws error when request fails', async () => {
+    it('da un error cuando la request falla', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
+        status: 404,
+        statusText: 'Not Found',
       });
 
-      await expect(getUserDetails('user1')).rejects.toThrow('Error al obtener detalles del usuario');
+      await expect(getUserDetails('user1')).rejects.toThrow('No se encontraron resultados para tu búsqueda.');
     });
   });
 
   describe('getUserRepos', () => {
-    it('returns user repositories when successful', async () => {
+    it('devuelve los repositorios del usuario cuando es exitoso', async () => {
       const mockRepos = [
         {
           id: 1,
@@ -92,17 +96,19 @@ describe('GitHub Service', () => {
       expect(result).toEqual(mockRepos);
     });
 
-    it('throws error when request fails', async () => {
+    it('da un error cuando la request falla', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
+        status: 500,
+        statusText: 'Internal Server Error',
       });
 
-      await expect(getUserRepos('user1')).rejects.toThrow('Error al obtener repositorios del usuario');
+      await expect(getUserRepos('user1')).rejects.toThrow('Error interno del servidor de GitHub.');
     });
   });
 
   describe('getInitialUsers', () => {
-    it('returns initial users when successful', async () => {
+    it('devuelve los usuarios iniciales cuando es exitoso', async () => {
       const mockUsers = [
         { id: 1, login: 'user1', avatar_url: 'url1', html_url: 'html1' },
         { id: 2, login: 'user2', avatar_url: 'url2', html_url: 'html2' },
@@ -117,12 +123,14 @@ describe('GitHub Service', () => {
       expect(result).toEqual(mockUsers);
     });
 
-    it('throws error when request fails', async () => {
+    it('da un error cuando la request falla', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
+        status: 403,
+        statusText: 'rate limit exceeded',
       });
 
-      await expect(getInitialUsers()).rejects.toThrow('Error al obtener usuarios iniciales');
+      await expect(getInitialUsers()).rejects.toThrow('Has superado el límite de peticiones a la API de GitHub. Intenta más tarde.');
     });
   });
 }); 
