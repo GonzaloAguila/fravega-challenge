@@ -3,11 +3,20 @@ import { useCallback, useEffect, useState } from 'react';
 import styles from './SearchBar.module.css';
 
 interface SearchBarProps {
+  onSearch?: (query: string) => void;
   onLoadingChange?: (isLoading: boolean) => void;
   initialQuery?: string;
+  isLoading?: boolean;
+  error?: string;
 }
 
-export const SearchBar = ({ onLoadingChange, initialQuery = '' }: SearchBarProps) => {
+export const SearchBar = ({ 
+  onSearch, 
+  onLoadingChange, 
+  initialQuery = '', 
+  isLoading: externalLoading,
+  error 
+}: SearchBarProps) => {
   const router = useRouter();
   const [query, setQuery] = useState(initialQuery);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +36,7 @@ export const SearchBar = ({ onLoadingChange, initialQuery = '' }: SearchBarProps
     (searchQuery: string) => {
       setIsLoading(true);
       setQuery(searchQuery);
+      onSearch?.(searchQuery);
 
       const timeoutId = setTimeout(async () => {
         try {
@@ -45,19 +55,20 @@ export const SearchBar = ({ onLoadingChange, initialQuery = '' }: SearchBarProps
 
       return () => clearTimeout(timeoutId);
     },
-    [router]
+    [router, onSearch]
   );
 
   return (
     <div className={styles.searchContainer}>
       <input
         type="text"
-        placeholder="Buscar usuarios de GitHub..."
+        placeholder="Buscar usuarios..."
         value={query}
         onChange={(e) => handleSearch(e.target.value)}
         className={styles.searchInput}
       />
-      {isLoading && <div className={styles.loadingIndicator}>Buscando...</div>}
+      {(isLoading || externalLoading) && <div className={styles.loadingIndicator} role="status">Buscando...</div>}
+      {error && <div className={styles.error}>{error}</div>}
     </div>
   );
 }; 
