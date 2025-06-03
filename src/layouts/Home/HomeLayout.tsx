@@ -8,7 +8,8 @@ import styles from './HomeLayout.module.css';
 import { Loader } from '@/components/Loader/Loader';
 import { useState, useCallback } from 'react';
 import { useLoading } from '@/hooks/useLoading';
-import { useSort, SortField, SortOrder } from '@/hooks/useSort';
+import { useSort } from '@/hooks/useSort';
+import { FilterPanel } from '@/components/FilterPanel/FilterPanel';
 
 interface HomeLayoutProps {
   users: User[];
@@ -18,8 +19,9 @@ interface HomeLayoutProps {
 export const HomeLayout = ({ users, searchQuery = '' }: HomeLayoutProps) => {
   const { toggleFavorite, isFavorite } = useFavorites();
   const { isLoading: isRouteLoading } = useLoading();
-  const { data = users, isLoading: isUsersLoading } = useUsers(searchQuery);
-  const { sortedItems = [], sortField, sortOrder, toggleSort } = useSort(data || []);
+  const [limit, setLimit] = useState<number>(40);
+  const { data = users, isLoading: isUsersLoading } = useUsers(searchQuery, limit);
+  const { sortedItems, sortField, sortOrder, toggleSort } = useSort(data || []);
 
   const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
   const [isFavoriteLoading, setIsFavoriteLoading] = useState<boolean>(false);
@@ -39,6 +41,8 @@ export const HomeLayout = ({ users, searchQuery = '' }: HomeLayoutProps) => {
 
   const showLoader = isRouteLoading || isSearchLoading || isUsersLoading || isFavoriteLoading;
 
+  const limitedItems = limit === 0 ? sortedItems : sortedItems.slice(0, limit);
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -50,38 +54,25 @@ export const HomeLayout = ({ users, searchQuery = '' }: HomeLayoutProps) => {
         </div>
         
         <SearchBar onLoadingChange={handleSearchLoading} />
+        <FilterPanel
+          sortField={sortField}
+          sortOrder={sortOrder}
+          onSort={toggleSort}
+          limit={limit}
+          onLimitChange={setLimit}
+        />
         {searchQuery && (
           <div className={styles.searchResults}>
             Resultados para: {searchQuery}
           </div>
         )}
-        <div className={styles.sortControls}>
-          <button
-            onClick={() => toggleSort(SortField.LOGIN)}
-            className={`${styles.sortButton} ${sortField === SortField.LOGIN ? styles.active : ''}`}
-          >
-            Nombre
-            {sortField === SortField.LOGIN && (
-              <span>{sortOrder === SortOrder.ASC ? '↑' : '↓'}</span>
-            )}
-          </button>
-          <button
-            onClick={() => toggleSort(SortField.ID)}
-            className={`${styles.sortButton} ${sortField === SortField.ID ? styles.active : ''}`}
-          >
-            ID
-            {sortField === SortField.ID && (
-              <span>{sortOrder === SortOrder.ASC ? '↑' : '↓'}</span>
-            )}
-          </button>
-        </div>
-        {sortedItems.length === 0 ? (
+        {limitedItems.length === 0 ? (
           <div className={styles.emptyState}>
             {searchQuery ? 'No se encontraron usuarios' : 'No hay usuarios para mostrar'}
           </div>
         ) : (
           <UserGrid 
-            users={sortedItems} 
+            users={limitedItems} 
             onToggleFavorite={handleToggleFavorite}
             isFavorite={isFavorite}
           />
