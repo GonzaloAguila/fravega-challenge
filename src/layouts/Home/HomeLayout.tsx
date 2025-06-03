@@ -12,17 +12,17 @@ import { useLoading } from '@/hooks/useLoading';
 import { useSort, SortField, SortOrder } from '@/hooks/useSort';
 
 interface HomeLayoutProps {
-  initialUsers: User[];
+  users: User[];
   searchQuery?: string;
 }
 
-export const HomeLayout = ({ initialUsers, searchQuery = '' }: HomeLayoutProps) => {
+export const HomeLayout = ({ users, searchQuery = '' }: HomeLayoutProps) => {
   const { toggleFavorite, isFavorite } = useFavorites();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { isLoading: isPageLoading } = useLoading();
-  const { data: users = initialUsers, isLoading: isUsersLoading } = useUsers(searchQuery);
-  const { sortedItems = [], sortField, sortOrder, toggleSort } = useSort(users || []);
+  const { data = users, isLoading: isUsersLoading } = useUsers(searchQuery);
+  const { sortedItems = [], sortField, sortOrder, toggleSort } = useSort(data || []);
 
   useEffect(() => {
     const handleStart = () => setIsLoading(true);

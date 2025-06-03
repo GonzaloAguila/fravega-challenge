@@ -10,8 +10,6 @@ export default function FavoritesPage({ favorites }: FavoritesPageProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  // En el servidor no podemos acceder a localStorage
-  // Por lo tanto, inicializamos con un array vacío
   return {
     props: {
       favorites: [],

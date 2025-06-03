@@ -1,5 +1,5 @@
 import { UserDetailLayout } from '@/layouts/UserDetail/UserDetailLayout';
-import { getUserDetails, getUserRepositories } from '@/services/github';
+import { getUserDetails, getUserRepos } from '@/services/github';
 import { Repository, UserDetail } from '@/types';
 import { GetServerSideProps } from 'next';
 
@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const username = params?.username as string;
     const [user, repositories] = await Promise.all([
       getUserDetails(username),
-      getUserRepositories(username),
+      getUserRepos(username),
     ]);
 
     return {

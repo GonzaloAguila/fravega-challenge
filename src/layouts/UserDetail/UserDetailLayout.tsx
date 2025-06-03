@@ -12,7 +12,7 @@ export const UserDetailLayout = ({ user, repos }: UserDetailLayoutProps) => {
     <main className={styles.main}>
       <div className={styles.container}>
         <Link href="/" className={styles.backLink}>
-          ← Volver a la búsqueda
+          ← Volver
         </Link>
 
         <div className={styles.profileCard}>
@@ -23,7 +23,17 @@ export const UserDetailLayout = ({ user, repos }: UserDetailLayoutProps) => {
               className={styles.avatar}
             />
             <div className={styles.profileInfo}>
-              <h1 className={styles.name}>{user.name || user.login}</h1>
+              <div className={styles.nameContainer}>
+                <h1 className={styles.name}>{user.name || user.login}</h1>
+                <a
+                  href={user.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.githubLink}
+                >
+                  Ver en GitHub →
+                </a>
+              </div>
               {user.bio && <p className={styles.bio}>{user.bio}</p>}
               <div className={styles.stats}>
                 <span>{user.followers} seguidores</span>
