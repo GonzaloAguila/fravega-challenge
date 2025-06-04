@@ -19,8 +19,8 @@ export const UserDetailLayout = ({ user, repos }: UserDetailLayoutProps) => {
         <div className={styles.profileCard}>
           <div className={styles.profileContent}>
             <Image
-              src={user.avatar_url}
-              alt={user.login}
+              src={user?.avatar_url}
+              alt={user?.login}
               className={styles.avatar}
               width={128}
               height={128}
@@ -28,9 +28,9 @@ export const UserDetailLayout = ({ user, repos }: UserDetailLayoutProps) => {
             />
             <div className={styles.profileInfo}>
               <div className={styles.nameContainer}>
-                <h1 className={styles.name}>{user.name || user.login}</h1>
+                <h1 className={styles.name}>{user?.name || user?.login}</h1>
                 <a
-                  href={user.html_url}
+                  href={user?.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.githubLink}
@@ -38,11 +38,11 @@ export const UserDetailLayout = ({ user, repos }: UserDetailLayoutProps) => {
                   Ver en GitHub →
                 </a>
               </div>
-              {user.bio && <p className={styles.bio}>{user.bio}</p>}
+              {user?.bio && <p className={styles.bio}>{user?.bio}</p>}
               <div className={styles.stats}>
-                <span>{user.followers} seguidores</span>
-                <span>{user.following} siguiendo</span>
-                <span>{user.public_repos} repositorios</span>
+                <span>{user?.followers} seguidores</span>
+                <span>{user?.following} siguiendo</span>
+                <span>{user?.public_repos} repositorios</span>
               </div>
             </div>
           </div>
@@ -58,15 +58,15 @@ export const UserDetailLayout = ({ user, repos }: UserDetailLayoutProps) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {repo.name}
+                  {repo?.name}
                 </a>
               </h3>
-              {repo.description && (
-                <p className={styles.repoDescription}>{repo.description}</p>
+              {repo?.description && (
+                <p className={styles.repoDescription}>{repo?.description}</p>
               )}
               <div className={styles.repoStats}>
-                <span>⭐ {repo.stargazers_count}</span>
-                {repo?.language && <span>🔤 {repo.language}</span>}
+                <span>⭐ {repo?.stargazers_count}</span>
+                {repo?.language && <span>🔤 {repo?.language}</span>}
               </div>
             </div>
           ))}
